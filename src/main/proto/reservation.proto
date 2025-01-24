@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.ferro.mateus.ticketflowgrpcserver";
+
+package com.ferro.mateus.ticketflowgrpcserver;
+
+service TicketReservationService {
+  rpc createReservation (CreateReservationRequest) returns (CreateReservationResponse);
+  rpc checkSeatAvailability(SeatAvailabilityRequest) returns (SeatAvailabilityResponse);
+  rpc getReservation(GetReservationRequest) returns (GetReservationResponse);
+}
+
+message Reservation {
+  int64 id = 1;
+  int64 event_id = 2;
+  int64 user_id = 3;
+  repeated int64 seat_ids = 4;
+  float total_price = 5;
+  string status = 6;
+}
+
+message CreateReservationRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+  repeated int64 seat_ids = 3;
+}
+
+message CreateReservationResponse {
+  int64 reservation_id = 1;
+  string status = 2;
+  float total_price = 3;
+}
+
+message SeatAvailabilityRequest {
+  int64 event_id = 1;
+  repeated int64 seat_ids = 2;
+}
+
+message SeatAvailabilityResponse {
+  repeated int64 available_seats = 1;
+  repeated int64 unavailable_seats = 2;
+}
+
+message GetReservationRequest {
+  int64 reservation_id = 1;
+}
+
+message GetReservationResponse {
+  Reservation reservation = 1;
+}
+
+message GetSeatsForEventRequest {
+  int64 event_id = 1;
+}
+
+message GetSeatsForEventResponse {
+  Reservation reservation = 1;
+}
