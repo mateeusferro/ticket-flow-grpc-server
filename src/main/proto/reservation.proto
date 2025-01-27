@@ -9,12 +9,13 @@ service TicketReservationService {
   rpc createReservation (CreateReservationRequest) returns (CreateReservationResponse);
   rpc checkSeatAvailability(SeatAvailabilityRequest) returns (SeatAvailabilityResponse);
   rpc getReservation(GetReservationRequest) returns (GetReservationResponse);
+  rpc getReservationsByCustomer(GetReservationByCustomerRequest) returns (GetReservationByCustomerResponse);
 }
 
 message Reservation {
   int64 id = 1;
   int64 event_id = 2;
-  int64 user_id = 3;
+  int64 customer_id = 3;
   repeated int64 seat_ids = 4;
   float total_price = 5;
   string status = 6;
@@ -22,7 +23,7 @@ message Reservation {
 
 message CreateReservationRequest {
   int64 event_id = 1;
-  int64 user_id = 2;
+  int64 customer_id = 2;
   repeated int64 seat_ids = 3;
 }
 
@@ -57,3 +58,12 @@ message GetSeatsForEventRequest {
 message GetSeatsForEventResponse {
   Reservation reservation = 1;
 }
+
+message GetReservationByCustomerRequest {
+  int64 customer_id = 1;
+}
+
+message GetReservationByCustomerResponse {
+  repeated Reservation reservation = 1;
+}
+
